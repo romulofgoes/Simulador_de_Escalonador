@@ -1,0 +1,2 @@
+class cpu:
+    int 
