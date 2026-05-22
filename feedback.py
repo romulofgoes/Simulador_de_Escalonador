@@ -1,6 +1,13 @@
 from fcfs import Fcfs
 
 class feedback:
+    """
+    Fila de feedback para processos de usuário
+    Tem 3 filas que se comportam como uma FCFS 
+     ***(a questão do quantum pensei numa implementação na main que a cada ciclo opera isso)
+    
+    
+    """
     def __init__(self, rq_1:Fcfs, rq_2:Fcfs, rq_3:Fcfs):
         self.rq_1 = rq_1
         self.rq_2 = rq_2

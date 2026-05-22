@@ -1,7 +1,12 @@
 from processo import Processo
 
 class Fcfs:
-    def __init__(self, lista: Processo):
+    """
+    Fila de pronto dos processos de Tempo Real
+    get - tira da primeira posição na fila para conceder tempo de CPU
+    put - põe na última posição na fila
+    """
+    def __init__(self, lista:Processo=None):
         self.lista = lista
 
     def get(self):
