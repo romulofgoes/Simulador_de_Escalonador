@@ -11,7 +11,7 @@ class Processo: # O elemento principal
         self.fase_1 = fase_1
         self.interruption_time = interruption_time
         self.fase_2 = fase_2
-        self.memory_size = memory_size
+        self.memory_size = memory_size # em Mbytes
         self.prox = None
 
     def executaCiclo(self):
