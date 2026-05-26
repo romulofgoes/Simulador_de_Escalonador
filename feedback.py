@@ -1,6 +1,6 @@
 from fcfs import Fcfs
 
-class feedback:
+class Feedback:
     """
     Fila de feedback para processos de usuário
     Tem 3 filas que se comportam como uma FCFS 
