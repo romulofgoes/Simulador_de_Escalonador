@@ -6,12 +6,12 @@ class Processo: # O elemento principal
             recebe os atributos iniciais da leitura do "processos.txt"
             tem atributo prox para poder gerar uma lista
         """
-        self.ident = ident
-        self.de_usuario = de_usuario # False - tempo_real e True - de usuário
-        self.fase_1 = fase_1
-        self.interruption_time = interruption_time
-        self.fase_2 = fase_2
-        self.memory_size = memory_size # em Mbytes
+        self.ident = int(ident)
+        self.de_usuario = bool(de_usuario) # False - tempo_real e True - de usuário
+        self.fase_1 = int(fase_1)
+        self.interruption_time = int(interruption_time)
+        self.fase_2 = int(fase_2)
+        self.memory_size = int(memory_size) # em Mbytes
         self.prox = None
 
     def executaCiclo(self):
@@ -27,7 +27,7 @@ class Processo: # O elemento principal
         """
             Método que retorna True se o processo requisita interrupção e False, se não
         """
-        if(self.fase<0):
+        if(self.fase_1<0):
             print ("Error na interrupção!")
             return 0
         if(self.fase_1==0 and self.interruption_time>0):
