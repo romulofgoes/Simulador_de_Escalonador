@@ -26,6 +26,16 @@ class Fcfs:
             processo_prox = processo_prox.prox
         processo_prox.prox = processo_carregado
     
+    def imprime(self):
+        processo_prox = self.lista
+        if(not processo_prox):
+            print("None")
+            return
+        while(processo_prox):
+            print(processo_prox.ident)
+            processo_prox = processo_prox.prox
+
+    
 
         
             
