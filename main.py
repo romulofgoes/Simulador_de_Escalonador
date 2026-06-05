@@ -6,6 +6,7 @@ from processo import Processo
 from escalonador_cp import Despachante
 from escalonador_lp import EscalonadorLongoPrazo
 
+
 def read_processos(endereco_nome: str):
     '''
         Ler o arquivo de processos
@@ -22,7 +23,9 @@ def read_processos(endereco_nome: str):
     return p
 
 def main():
+    print()
     print("\n------------------SISTEMA INICIALIZA-----------------\n")
+    time.sleep(2)
     memoria_ram = MemoriaPrincipal()
     print("Memória Ram foi instanciada.")
     cpu = Cpu()
@@ -35,14 +38,15 @@ def main():
     despachante = Despachante(memoria_ram)
     escalonador = EscalonadorLongoPrazo(memoria_ram, despachante)
     for processo_lido in p:
+        time.sleep(2)
         escalonador.criaProcesso(processo_lido)
         print()
-    print(f"Memória Ram: {memoria_ram.lista_memoria_livre}")
     print("\n==================FUNCIONAMENTO DO SISTEMA===============\n")
     while(despachante.fila is not None):
         processo_escalonado = despachante.escalona()
         if(processo_escalonado is None):
             break
+        time.sleep(2)
         print(f"Fila atual:")
         despachante.imprime()
         print()
