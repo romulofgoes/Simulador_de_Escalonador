@@ -1,4 +1,5 @@
 from fcfs import Fcfs
+from termcolor import cprint # para deixar o texto do terminal colorido
 
 class Despachante:
     def __init__(self, memoria_principal):
@@ -7,7 +8,7 @@ class Despachante:
 
     
     def insereFila(self, processo):
-        print(f"Processo {processo.ident} inserido na fila de prontos")
+        cprint(f"Processo {processo.ident} inserido na fila de prontos", "magenta")
         if(self.fila==None):
             self.fila = Fcfs()
         self.fila.put(processo)
@@ -16,7 +17,7 @@ class Despachante:
         p = self.fila.get()
         if(p is None): 
             return None
-        print("Processo foi escalonado:  ", p.ident)
+        cprint(f"Processo foi escalonado:  {p.ident}", "magenta")
         self.memoria.removeProcesso(p)
         return p
     
