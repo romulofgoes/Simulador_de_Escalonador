@@ -1,5 +1,5 @@
 from fcfs import Fcfs
-from termcolor import cprint # para deixar o texto do terminal colorido
+from termcolor import cprint # para deixar o texto do terminal colorido: magenta
 
 class Despachante:
     def __init__(self, memoria_principal):

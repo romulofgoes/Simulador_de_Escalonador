@@ -1,4 +1,4 @@
-from termcolor import cprint
+from termcolor import cprint # para deixar o texto do terminal colorido: blue
 
 class MemoriaPrincipal:
     def __init__(self):
