@@ -43,7 +43,7 @@ class MemoriaPrincipal:
                 self.imprimeMapa()
                 return True
                 
-        cprint(f"Falha: Memoria insuficiente ou muito fragmentada para o Processo {processo.ident}."),"blue" 
+        cprint(f"Falha: Memoria insuficiente ou muito fragmentada para o Processo {processo.ident}.", "blue")
         """
         não sei se precisa de algoritmo pra lidar com fragmentações distantes entre si, é mt mais trabalhoso. Vou fazer um algoritmo de coalescência 
         pra juntar blocos livres adjacentes, mas se tiver muitos blocos pequenos livres separados, 

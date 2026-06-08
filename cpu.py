@@ -2,7 +2,7 @@ from processo import Processo
 import time
 
 class Cpu: #processador - serão 4 instâncias (?)
-    def __init(self):
+    def __init__(self):
         self.sinalInterrupcao=False # sinal de interrupção - para política de feedback que para o processo para ver o sinal de interrupção
     
     def interrupcao(self): # recebeu sinal de interrupção
@@ -17,7 +17,6 @@ class Cpu: #processador - serão 4 instâncias (?)
                 print("Processo foi interrompido!")
             print("Processo finalizou.")
 
-    # def lidaComInterrupcao() -> método para colocar a interrupção novamente para false antes de voltar a executar
-    
-    
+    def lidaComInterrupcao(self): # confirma o tratamento do sinal e o reseta antes de voltar a executar
+        self.sinalInterrupcao = False
 

@@ -14,6 +14,7 @@ class Fcfs:
             return None
         processo_escalonado = self.lista
         self.lista = self.lista.prox
+        processo_escalonado.prox = None # desfaz o vinculo com a lista antiga, senao o processo carrega um ponteiro fantasma ao entrar em outra fila
         return processo_escalonado
         
 

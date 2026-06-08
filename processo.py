@@ -1,5 +1,7 @@
+from termcolor import cprint # para deixar o texto do terminal colorido: yellow
+
 class Processo: # O elemento principal
-    """ 
+    """
     """
     def __init__(self, ident: int, de_usuario:bool, fase_1: int, interruption_time:int, fase_2: int, memory_size: int):
         """
@@ -7,12 +9,21 @@ class Processo: # O elemento principal
             tem atributo prox para poder gerar uma lista
         """
         self.ident = int(ident)
-        self.de_usuario = bool(de_usuario) # False - tempo_real e True - de usuário
+        self.de_usuario = bool(int(de_usuario)) # False - tempo_real e True - de usuário ("0"/"1" viram string, bool("0") seria True)
         self.fase_1 = int(fase_1)
         self.interruption_time = int(interruption_time)
         self.fase_2 = int(fase_2)
         self.memory_size = int(memory_size) # em Mbytes
         self.prox = None
+        self.estado = "novo"
+        self.nivel_fila = 1 # fila de feedback atual (1, 2 ou 3); só vale para processos de usuário
+
+    def mudaEstado(self, novo_estado):
+        """
+            Imprime e registra a transição de estado do processo
+        """
+        cprint(f"Processo #{self.ident}: de {self.estado} para {novo_estado}", "yellow")
+        self.estado = novo_estado
 
     def executaCiclo(self):
         """

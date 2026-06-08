@@ -18,7 +18,7 @@ class dispositivoEntradaSaida:
     
     def executa(self):
         if(self.processo.executaInterrupcao()):
-            print("Disp {self.nome} entrada executando processo {self.processo.ident}") # executa um ciclo de interrupção
+            print(f"Disp {self.nome} entrada executando processo {self.processo.ident}") # executa um ciclo de interrupção
         else:
-            print("Disp {self.nome} terminou a chamada do processo {self.processo.ident}") # conclui e envia sinal de interrupcao
-            self.dma.sinalInterrupcao(self.name) # sinal de interrupção
+            print(f"Disp {self.nome} terminou a chamada do processo {self.processo.ident}") # conclui e envia sinal de interrupcao
+            self.dma.sinalInterrupcao(self.nome) # sinal de interrupção

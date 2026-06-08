@@ -10,11 +10,14 @@ class EscalonadorLongoPrazo:
         self.despachante = despachante
 
     def criaProcesso(self, processo):
-        cprint("Escalonador: Processo está sendo carregado na memória RAM", "cyan")
+        tipo = "usuário" if processo.de_usuario else "tempo real"
+        cprint(f"Escalonador: Processo {processo.ident} ({tipo}) criado, sendo carregado na memória RAM", "cyan")
         time.sleep(2)
         if(self.memoria.recebeProcesso(processo)):
-            cprint("Escalonador: Processo está sendo inserido na fila de prontos do Despachante", "cyan")
+            cprint(f"Escalonador: Processo {processo.ident} carregado na RAM, sendo inserido na fila de prontos do Despachante", "cyan")
             self.despachante.insereFila(processo)
+        else:
+            cprint(f"Escalonador: Processo {processo.ident} não coube na memória disponível e foi descartado", "cyan")
     
     
 
