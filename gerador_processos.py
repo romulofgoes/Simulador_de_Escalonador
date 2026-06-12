@@ -1,6 +1,6 @@
 import random
 
-with open("processos_gerados.txt", "w") as f:
+with open("processos.txt", "w") as f:
     id = 1
     x = int(input("Quantos processos?"))
 
