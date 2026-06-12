@@ -132,6 +132,7 @@ def main():
 
     print("TESTE: ", escalonador.ordem_proc_pedidos)
 
+
     print("\n==================FUNCIONAMENTO DO SISTEMA===============\n")
     while despachante.haProcessosProntos() or fila_bloqueados.lista is not None:
         
@@ -139,6 +140,7 @@ def main():
         escalonador.escalonaProcesso(dma)
         processo_escalonado, eh_tempo_real = despachante.escalona()
         if processo_escalonado is None:
+            avancaIO(cpu, dma, fila_bloqueados, despachante)
             despachante.imprime()
             time.sleep(TEMPO_DE_CICLO)
             continue
