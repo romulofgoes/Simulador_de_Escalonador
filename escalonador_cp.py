@@ -11,10 +11,10 @@ class Despachante:
     def insereFila(self, processo):
         processo.mudaEstado("pronto")
         if processo.de_usuario:
-            cprint(f"Processo {processo.ident} inserido na fila de prontos de usuario (rq_1)", "magenta")
+            cprint(f"Despachante: Processo {processo.ident} inserido na fila de prontos de usuario (rq_1)", "magenta")
             self.fila_usuario.insereNovo(processo)
         else:
-            cprint(f"Processo {processo.ident} inserido na fila de prontos de tempo real", "magenta")
+            cprint(f"Despachante: Processo {processo.ident} inserido na fila de prontos de tempo real", "magenta")
             self.fila_tempo_real.put(processo)
 
     def haProcessosProntos(self):
@@ -38,7 +38,7 @@ class Despachante:
         return None, None
 
     def devolveDeIO(self, processo):
-        self.fila_usuario.reinsere(processo)
+        self.fila_usuario.insereNovo(processo)
 
     def rebaixaProcesso(self, processo):
         self.fila_usuario.rebaixa(processo)

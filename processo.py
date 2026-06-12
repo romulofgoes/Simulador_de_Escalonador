@@ -3,7 +3,8 @@ from termcolor import cprint # para deixar o texto do terminal colorido: yellow
 class Processo: # O elemento principal
     """
     """
-    def __init__(self, ident: int, de_usuario:bool, fase_1: int, interruption_time:int, fase_2: int, memory_size: int):
+    def __init__(self, ident: int, de_usuario:bool, fase_1: int, interruption_time:int, fase_2: int, qtde_discos: int, memory_size: int): 
+        """ precisa adicionar se quer disco e quantos """
         """
             recebe os atributos iniciais da leitura do "processos.txt"
             tem atributo prox para poder gerar uma lista
@@ -13,6 +14,7 @@ class Processo: # O elemento principal
         self.fase_1 = int(fase_1)
         self.interruption_time = int(interruption_time)
         self.fase_2 = int(fase_2)
+        self.qtde_discos = qtde_discos
         self.memory_size = int(memory_size) # em Mbytes
         self.prox = None
         self.estado = "novo"

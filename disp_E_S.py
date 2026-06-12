@@ -1,4 +1,5 @@
 from processo import Processo
+from termcolor import cprint # cor "white" destaque "on_blue"
 
 # recurso de chamada do processo (se for mais de um, talvez seja preciso especificar na entrada do processo qual dispositivo ele requisita)
 class dispositivoEntradaSaida:
@@ -18,7 +19,7 @@ class dispositivoEntradaSaida:
     
     def executa(self):
         if(self.processo.executaInterrupcao()):
-            print(f"Disp {self.nome} entrada executando processo {self.processo.ident}") # executa um ciclo de interrupção
+            cprint(f"Disp {self.nome} executando processo {self.processo.ident}", "white", "on_blue") # executa um ciclo de interrupção
         else:
-            print(f"Disp {self.nome} terminou a chamada do processo {self.processo.ident}") # conclui e envia sinal de interrupcao
+            cprint(f"Disp {self.nome} terminou a chamada do processo {self.processo.ident}", "white", "on_blue") # conclui e envia sinal de interrupcao
             self.dma.sinalInterrupcao(self.nome) # sinal de interrupção

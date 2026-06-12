@@ -1,4 +1,4 @@
-from termcolor import cprint # para deixar o texto do terminal colorido: blue
+from termcolor import cprint # para deixar o texto do terminal colorido: dark_grey
 
 class MemoriaPrincipal:
     def __init__(self):
@@ -16,7 +16,7 @@ class MemoriaPrincipal:
         """
         aqui eu tento carregar o processo na memória usando First-Fit, e retorno True se conseguiu alocar, ou False se não coube.
         """
-        cprint(f"Tentando alocar {processo.memory_size} MB para o Processo {processo.ident}...","blue")
+        cprint(f"Tentando alocar {processo.memory_size} MB para o Processo {processo.ident}...","dark_grey")
         
         for i, bloco in enumerate(self.particoes):
             #procura o primeiro bloco que esteja livre e seja grande o suficiente
@@ -39,11 +39,11 @@ class MemoriaPrincipal:
                     #insere o novo bloco vazio logo após o bloco que foi ocupado
                     self.particoes.insert(i + 1, nova_particao)
                 
-                cprint(f"Sucesso! Processo {processo.ident} carregado na RAM.","blue")
+                cprint(f"Sucesso! Processo {processo.ident} carregado na RAM.","dark_grey")
                 self.imprimeMapa()
                 return True
                 
-        cprint(f"Falha: Memoria insuficiente ou muito fragmentada para o Processo {processo.ident}.", "blue")
+        cprint(f"Falha: Memoria insuficiente ou muito fragmentada para o Processo {processo.ident}.", "dark_grey")
         """
         não sei se precisa de algoritmo pra lidar com fragmentações distantes entre si, é mt mais trabalhoso. Vou fazer um algoritmo de coalescência 
         pra juntar blocos livres adjacentes, mas se tiver muitos blocos pequenos livres separados, 
@@ -60,7 +60,7 @@ class MemoriaPrincipal:
             if not bloco['livre'] and bloco['id_processo'] == processo.ident:
                 bloco['livre'] = True
                 bloco['id_processo'] = None
-                cprint(f"Processo {processo.ident} desalocado. Liberando {bloco['tamanho']} MB.","blue")
+                cprint(f"Processo {processo.ident} desalocado. Liberando {bloco['tamanho']} MB.","dark_grey")
                 
                 #após liberar, precisamos juntar os espaços vizinhos
                 self._coalescencia() #fazer!
@@ -97,4 +97,4 @@ class MemoriaPrincipal:
         for p in self.particoes:
             status = "Livre" if p['livre'] else f"P{p['id_processo']}"
             mapa.append(f"[{status}: {p['tamanho']}MB]")
-        cprint("Mapa da Memoria: " + " -> ".join(mapa),"blue")
+        cprint("Mapa da Memoria: " + " -> ".join(mapa),"dark_grey")

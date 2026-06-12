@@ -5,13 +5,13 @@ from cpu import Cpu
 from processo import Processo
 from escalonador_cp import Despachante
 from escalonador_lp import EscalonadorLongoPrazo
-from disp_E_S import dispositivoEntradaSaida
+from disco import Disco
 from dma import Dma
 from fila_de_bloqueados import FilaBloqueados
 from feedback import QUANTUM
 
 NUM_DISCOS = 4
-TEMPO_DE_CICLO = 0.4 # segundos de pausa por unidade de tempo simulada, so para visualizacao
+TEMPO_DE_CICLO = 1 # segundos de pausa por unidade de tempo simulada, so para visualizacao
 
 
 def read_processos(endereco_nome: str):
@@ -21,6 +21,7 @@ def read_processos(endereco_nome: str):
     '''
     p = list()
     with open(endereco_nome) as f:
+
         for line in f:
             params = []
             for param in line.split(","): # pega os itens, cada um
@@ -30,19 +31,20 @@ def read_processos(endereco_nome: str):
     return p
 
 
-def executaTempoReal(cpu, despachante, processo):
+def executaTempoReal(cpu, despachante, dma, fila_bloqueados, processo):
     '''
         Tempo real e prioridade 0: roda em FCFS ate a conclusao, sem qualquer interrupcao
     '''
     processo.mudaEstado("executando")
     while not processo.foiFinalizado():
+        avancaIO(cpu, dma, fila_bloqueados, despachante)
         print(f"CPU executando processo de tempo real {processo.ident} (sem interrupcao). Resta de fase 1: {processo.fase_1}")
         cpu.executa(processo)
         time.sleep(TEMPO_DE_CICLO)
     despachante.finalizaProcesso(processo)
 
 
-def executaUsuario(cpu, despachante, fila_bloqueados, processo):
+def executaUsuario(cpu, despachante, dma, fila_bloqueados, processo):
     '''
         Usuario e prioridade 1: roda no maximo `QUANTUM` unidades de tempo por vez.
         Se terminar a fase de cpu, finaliza; se precisar de E/S, vai para a fila de
@@ -67,6 +69,7 @@ def executaUsuario(cpu, despachante, fila_bloqueados, processo):
 
         print(f"CPU executando processo de usuario {processo.ident} (rq_{processo.nivel_fila}, {unidades_executadas + 1}/{QUANTUM} do quantum). Resta fase 1: {processo.fase_1}, fase 2: {processo.fase_2}")
         cpu.executa(processo)
+        avancaIO(cpu, dma, fila_bloqueados, despachante)
         unidades_executadas += 1
         time.sleep(TEMPO_DE_CICLO)
 
@@ -99,38 +102,44 @@ def avancaIO(cpu, dma, fila_bloqueados, despachante):
 
 def main():
     print()
-    print("\n------------------SISTEMA INICIALIZA-----------------\n")
+    print("\n-----------------------------SISTEMA INICIALIZA-----------------------------\n")
     time.sleep(2)
     memoria_ram = MemoriaPrincipal()
-    print("Memória Ram foi instanciada.")
+    print("Memória RAM foi instanciada.")
     cpu = Cpu()
-    print("Cpu foi instanciada.")
+    print("CPU foi instanciada.")
 
-    discos = [dispositivoEntradaSaida(f"Disco {i + 1}", None) for i in range(NUM_DISCOS)]
+    discos = [Disco(i, f"Disco {i + 1}", None) for i in range(NUM_DISCOS)]
     dma = Dma(discos, cpu)
     for disco in discos: # referencia circular: o disco precisa do dma para sinalizar e o dma precisa da lista de discos
         disco.dma = dma
-    fila_bloqueados = FilaBloqueados()
     print(f"{NUM_DISCOS} discos e o DMA foram instanciados.")
+    
 
-    print()
-    print("Leitura dos processos .txt...")
-    p = read_processos("processos.txt")
-    print("Os processos do arquivo de entrada foram lidos.")
-    print()
+    print("\nLeitura dos processos .txt...")
+    p = read_processos("processos_gerados.txt")
+
+    print("Os processos do arquivo de entrada foram lidos.\n")
+
+    fila_bloqueados = FilaBloqueados()
     despachante = Despachante(memoria_ram)
     escalonador = EscalonadorLongoPrazo(memoria_ram, despachante)
+  
     for processo_lido in p:
-        time.sleep(2)
-        escalonador.criaProcesso(processo_lido)
+        time.sleep(1)
+        escalonador.criaProcesso(processo_lido, dma)
         print()
+
+    print("TESTE: ", escalonador.ordem_proc_pedidos)
 
     print("\n==================FUNCIONAMENTO DO SISTEMA===============\n")
     while despachante.haProcessosProntos() or fila_bloqueados.lista is not None:
-        avancaIO(cpu, dma, fila_bloqueados, despachante)
+        
 
+        escalonador.escalonaProcesso(dma)
         processo_escalonado, eh_tempo_real = despachante.escalona()
         if processo_escalonado is None:
+            despachante.imprime()
             time.sleep(TEMPO_DE_CICLO)
             continue
 
@@ -139,9 +148,9 @@ def main():
         print()
 
         if eh_tempo_real:
-            executaTempoReal(cpu, despachante, processo_escalonado)
+            executaTempoReal(cpu, despachante, dma, fila_bloqueados, processo_escalonado)
         else:
-            executaUsuario(cpu, despachante, fila_bloqueados, processo_escalonado)
+            executaUsuario(cpu, despachante, dma, fila_bloqueados, processo_escalonado)
         print()
 
     print("\n------------------SISTEMA FINALIZADO-----------------\n")
