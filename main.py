@@ -143,6 +143,9 @@ def main():
         #deixei a chamada de IO passando a cpu[0] pra assinatura
         avancaIO(cpus[0], dma, fila_bloqueados, despachante)
 
+        #escalona processos pelo Escalonador de Longo Prazo do Disco para a MP
+        escalonador.escalonaProcesso(dma)
+
         #PRIMEIRO PASSO: preencher as cpus que estão vazias
         for i in range(4):
             if status_cpus[i][0] is None: # cpu vazia
