@@ -14,7 +14,7 @@ class Processo: # O elemento principal
         self.fase_1 = int(fase_1)
         self.interruption_time = int(interruption_time)
         self.fase_2 = int(fase_2)
-        self.qtde_discos = qtde_discos
+        self.qtde_discos = int(qtde_discos)
         self.memory_size = int(memory_size) # em Mbytes
         self.prox = None
         self.estado = "novo"
