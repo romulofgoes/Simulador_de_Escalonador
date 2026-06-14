@@ -1,4 +1,4 @@
-from fcfs import Fcfs
+from sistema_operacional.fcfs import Fcfs
 
 class FilaBloqueados(Fcfs):
     """

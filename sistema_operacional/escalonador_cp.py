@@ -1,5 +1,5 @@
-from fcfs import Fcfs
-from feedback import Feedback, QUANTUM
+from sistema_operacional.fcfs import Fcfs
+from sistema_operacional.feedback import Feedback, QUANTUM
 from termcolor import cprint # para deixar o texto do terminal colorido: magenta
 
 class Despachante:

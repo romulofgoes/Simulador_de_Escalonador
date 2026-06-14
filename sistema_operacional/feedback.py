@@ -1,4 +1,4 @@
-from fcfs import Fcfs
+from sistema_operacional.fcfs import Fcfs
 
 QUANTUM = 2 # unidades de tempo de cada fatia de cpu na politica de feedback (definido no enunciado)
 

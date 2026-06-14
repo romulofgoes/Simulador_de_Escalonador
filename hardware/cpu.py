@@ -1,4 +1,4 @@
-from processo import Processo
+from sistema_operacional.processo import Processo
 import time
 
 class Cpu: #processador - serão 4 instâncias (?)

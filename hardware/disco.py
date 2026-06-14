@@ -1,5 +1,5 @@
-from disp_E_S import dispositivoEntradaSaida
-from processo import Processo
+from hardware.disp_E_S import dispositivoEntradaSaida
+from sistema_operacional.processo import Processo
 from copy import deepcopy
 
 class Disco(dispositivoEntradaSaida):

@@ -1,4 +1,4 @@
-from processo import Processo
+from sistema_operacional.processo import Processo
 from termcolor import cprint # cor "white" destaque "on_blue"
 
 # recurso de chamada do processo (se for mais de um, talvez seja preciso especificar na entrada do processo qual dispositivo ele requisita)

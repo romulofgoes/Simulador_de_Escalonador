@@ -1,6 +1,6 @@
-from memoria_principal import MemoriaPrincipal
-from escalonador_cp import Despachante
-from fcfs import Fcfs
+from hardware.memoria_principal import MemoriaPrincipal
+from sistema_operacional.escalonador_cp import Despachante
+from sistema_operacional.fcfs import Fcfs
 from termcolor import cprint # para deixar o texto do terminal colorido: cyan
 import time # tempo de espera para melhor vizualização interativa
 

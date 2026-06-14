@@ -1,14 +1,14 @@
 import time
 
-from memoria_principal import MemoriaPrincipal
-from cpu import Cpu
-from processo import Processo
-from escalonador_cp import Despachante
-from escalonador_lp import EscalonadorLongoPrazo
-from disco import Disco
-from dma import Dma
-from fila_de_bloqueados import FilaBloqueados
-from feedback import QUANTUM
+from hardware.memoria_principal import MemoriaPrincipal
+from hardware.cpu import Cpu
+from sistema_operacional.processo import Processo
+from sistema_operacional.escalonador_cp import Despachante
+from sistema_operacional.escalonador_lp import EscalonadorLongoPrazo
+from hardware.disco import Disco
+from hardware.dma import Dma
+from sistema_operacional.fila_de_bloqueados import FilaBloqueados
+from sistema_operacional.feedback import QUANTUM
 
 NUM_DISCOS = 4
 TEMPO_DE_CICLO = 1.5 # segundos de pausa por unidade de tempo simulada, so para visualizacao
