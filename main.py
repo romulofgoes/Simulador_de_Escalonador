@@ -30,47 +30,6 @@ def read_processos(endereco_nome: str):
     return p
 
 
-def executaTempoReal(cpu, despachante, processo):
-    '''
-        Tempo real e prioridade 0: roda em FCFS ate a conclusao, sem qualquer interrupcao
-    '''
-    processo.mudaEstado("executando")
-    while not processo.foiFinalizado():
-        print(f"CPU executando processo de tempo real {processo.ident} (sem interrupcao). Resta de fase 1: {processo.fase_1}")
-        cpu.executa(processo)
-        time.sleep(TEMPO_DE_CICLO)
-    despachante.finalizaProcesso(processo)
-
-
-def executaUsuario(cpu, despachante, fila_bloqueados, processo):
-    '''
-        Usuario e prioridade 1: roda no maximo `QUANTUM` unidades de tempo por vez.
-        Se terminar a fase de cpu, finaliza; se precisar de E/S, vai para a fila de
-        bloqueados; se esgotar o quantum sem nenhum dos dois, e rebaixado de fila.
-    '''
-    processo.mudaEstado("executando")
-    unidades_executadas = 0
-    while True:
-        if processo.foiFinalizado():
-            despachante.finalizaProcesso(processo)
-            return
-
-        if processo.foiInterrompido():
-            processo.mudaEstado("bloqueado")
-            fila_bloqueados.put(processo)
-            return
-
-        if unidades_executadas == QUANTUM:
-            processo.mudaEstado("pronto")
-            despachante.rebaixaProcesso(processo)
-            return
-
-        print(f"CPU executando processo de usuario {processo.ident} (rq_{processo.nivel_fila}, {unidades_executadas + 1}/{QUANTUM} do quantum). Resta fase 1: {processo.fase_1}, fase 2: {processo.fase_2}")
-        cpu.executa(processo)
-        unidades_executadas += 1
-        time.sleep(TEMPO_DE_CICLO)
-
-
 def avancaIO(cpu, dma, fila_bloqueados, despachante):
     '''
         A cada ciclo do sistema: avanca um passo de E/S nos discos ocupados
