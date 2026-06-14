@@ -1,33 +1,19 @@
 import time
 
-from hardware.memoria_principal import MemoriaPrincipal
 from hardware.cpu import Cpu
-from sistema_operacional.processo import Processo
+from hardware.memoria_principal import MemoriaPrincipal
+from hardware.dma import Dma
+from hardware.disco import Disco
+
 from sistema_operacional.escalonador_cp import Despachante
 from sistema_operacional.escalonador_lp import EscalonadorLongoPrazo
-from hardware.disco import Disco
-from hardware.dma import Dma
 from sistema_operacional.fila_de_bloqueados import FilaBloqueados
 from sistema_operacional.feedback import QUANTUM
 
+from input.ler_processos import read_processos
+
 NUM_DISCOS = 4
 TEMPO_DE_CICLO = 1.5 # segundos de pausa por unidade de tempo simulada, so para visualizacao
-
-
-def read_processos(endereco_nome: str):
-    '''
-        Ler o arquivo de processos
-        Retorna lista de objetos instanciados com os dados do processos
-    '''
-    p = list()
-    with open(endereco_nome) as f:
-        for line in f:
-            params = []
-            for param in line.split(","): # pega os itens, cada um
-                    params.append(param.strip()) # tira o espaço sobrando
-            processo = Processo(*params) # cria novo processo com esses parâmetros
-            p.append(processo)
-    return p
 
 
 def avancaIO(cpu, dma, fila_bloqueados, despachante):
