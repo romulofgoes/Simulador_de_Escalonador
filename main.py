@@ -13,33 +13,7 @@ from sistema_operacional.feedback import QUANTUM
 from input.ler_processos import read_processos
 
 NUM_DISCOS = 4
-TEMPO_DE_CICLO = 1.5 # segundos de pausa por unidade de tempo simulada, so para visualizacao
-
-
-def avancaIO(cpu, dma, fila_bloqueados, despachante):
-    '''
-        A cada ciclo do sistema: avanca um passo de E/S nos discos ocupados
-        (devolvendo ao despachante quem terminou) e atribui discos livres aos
-        processos que ainda aguardam na fila de bloqueados, em ordem de chegada.
-    '''
-    for disp in dma.disp:
-        if disp.ocupado:
-            processo_em_io = disp.processo
-            disp.executa()
-            if not disp.ocupado: # disp.executa() chamou dma.sinalInterrupcao, que ja sinalizou a cpu
-                fila_bloqueados.remove(processo_em_io)
-                processo_em_io.mudaEstado("pronto")
-                despachante.devolveDeIO(processo_em_io)
-                cpu.lidaComInterrupcao()
-
-    aguardando = fila_bloqueados.lista
-    while aguardando is not None:
-        if not dma.estaAlocado(aguardando):
-            disp_livre = dma.buscaDispLivre()
-            if disp_livre is None:
-                break
-            disp_livre.chamada(aguardando)
-        aguardando = aguardando.prox
+TEMPO_DE_CICLO = 0 # segundos de pausa por unidade de tempo simulada, so para visualizacao
 
 
 def main():
@@ -64,7 +38,7 @@ def main():
 
     print()
     print("Leitura dos processos .txt...")
-    p = read_processos("processos.txt")
+    p = read_processos("input/processos.txt")
     print("Os processos do arquivo de entrada foram lidos.")
     print()
 
@@ -86,7 +60,7 @@ def main():
     while despachante.haProcessosProntos() or fila_bloqueados.lista is not None or any(status[0] is not None for status in status_cpus):
         
         #deixei a chamada de IO passando a cpu[0] pra assinatura
-        avancaIO(cpus[0], dma, fila_bloqueados, despachante)
+        fila_bloqueados.avancaIO(cpus[0], dma, despachante)
 
         #escalona processos pelo Escalonador de Longo Prazo do Disco para a MP
         escalonador.escalonaProcesso(dma)
